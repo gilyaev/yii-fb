@@ -1,2 +1,2 @@
 # yii-fb
-Facebook public page feed reader.
+Get wall feed from a public Facebook page using Graph API
