@@ -1,6 +1,6 @@
 {
   "config": {
-    "vendor-dir": "lib"
+    "vendor-dir": "common/lib"
   },
   "repositories": [
     {
