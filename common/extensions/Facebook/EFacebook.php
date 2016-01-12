@@ -65,6 +65,8 @@ class EFacebook extends CApplicationComponent
      *
      * @param string $alias user's page alias
      * @return array
+     *
+     * @throws Facebook\Exceptions\FacebookSDKException
      */
     public function getProfile($alias)
     {

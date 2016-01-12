@@ -6,6 +6,8 @@ class EFacebookFeedResponse
 
     protected $params;
 
+    protected $timeField = 'created_time';
+
     protected $fields = [];
 
     protected $defaultFields = [
@@ -81,14 +83,35 @@ class EFacebookFeedResponse
         return reset($this->data)['uid'];
     }
 
+    /**
+     * @param array $fields
+     * @return $this
+     */
+    public function setDefaultFields(array $fields)
+    {
+        $fields = CMap::mergeArray($fields, ['id']);
+        $this->defaultFields = $fields;
+        return $this;
+    }
+
+    /**
+     * @param $timeField
+     * @return $this
+     */
+    public function setTimeField($timeField)
+    {
+        $this->timeField = $timeField;
+        return $this;
+    }
+
     protected function getUntil()
     {
-        return end($this->data)['created_time'];
+        return end($this->data)[$this->timeField];
     }
 
     protected function getSince()
     {
-        return reset($this->data)['created_time'];
+        return reset($this->data)[$this->timeField];
     }
 
     protected function prepareItem($item)

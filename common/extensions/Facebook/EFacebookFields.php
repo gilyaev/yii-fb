@@ -43,4 +43,18 @@ class EFacebookFields
             'with_tags'
         ];
     }
+
+    /**
+     * @param \User $user
+     * @return array
+     */
+    public static function getUserDefaultFields(\User $user)
+    {
+        return [
+            'story',
+            'message',
+            $user->feed_time_field,
+            'id'
+        ];
+    }
 }

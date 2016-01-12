@@ -10,6 +10,16 @@ class User extends EMongoDocument
     /**
      * @var
      */
+    public $name;
+
+    /**
+     *
+     */
+    public $feed_time_field = 'created_time';
+
+    /**
+     * @var
+     */
     public $first_post_date;
 
     public function collectionName()
@@ -25,10 +35,15 @@ class User extends EMongoDocument
     public function getPosts(array $filter)
     {
         $filter['uid'] = $this->id;
+        $filter['sorted_field'] = $this->feed_time_field;
         $posts = Post::model()->findByParams($filter);
         return ($posts->count() === 0) ? [] : $posts;
     }
 
+    /**
+     * @return \EMongoDocument|mixed
+     * @throws \EMongoException
+     */
     public function getFirstPost()
     {
         $lastPost = Post::model()->find(

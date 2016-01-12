@@ -13,9 +13,9 @@ class FeedDiscovery
     /**
      * @var \User
      */
-    protected $profile;
+    protected $user;
 
-    public function __construct($profileId, array $params = [])
+    public function __construct(\User $user, array $params = [])
     {
         if (!empty($params['limit']) && $params['limit'] > 100) {
             throw new Exception("The 'limit' parameter should not exceed 100");
@@ -38,8 +38,7 @@ class FeedDiscovery
                 throw new Exception('Unknown fields:' . implode(',', $diff));
             }
         }
-
-        $this->initProfile($profileId);
+        $this->user   = $user;
         $this->params = $params;
     }
 
@@ -50,22 +49,20 @@ class FeedDiscovery
      */
     public function discovery()
     {
-        if (!$this->profile->getIsNewRecord()) {
-            $data = $this->getLocal();
+        $feed = $this->getLocal();
 
-            if ($data) {
-                return $data;
-            }
+        if ($feed) {
+            return $feed;
         }
 
-        $data = $this->getRemote();
-        $count = $data->count();
+        $feed = $this->getRemote();
+        $count = $feed->count();
 
         if ($count > 0) {
-            $data = $this->saveRemoteData($data);
+            $feed = $this->saveRemoteData($feed);
         }
-        $this->profile->save();
-        return $count > 0 ? $data : [];
+
+        return $count > 0 ? $feed : [];
     }
 
     /**
@@ -75,7 +72,7 @@ class FeedDiscovery
      */
     protected function getLocal()
     {
-        $posts = $this->profile->getPosts($this->params);
+        $posts = $this->user->getPosts($this->params);
         if (!empty($posts)) {
             $posts = iterator_to_array($posts);
             if (!empty($this->params['since'])) {
@@ -103,7 +100,7 @@ class FeedDiscovery
             $params['until'] = ($params['until'] - 2);
         }
 
-        return $fb->getFeed($this->profile->id, $params);
+        return $fb->getFeed($this->user->id, $params);
     }
 
     /**
@@ -132,19 +129,5 @@ class FeedDiscovery
         }
 
         return $posts;
-    }
-
-    /**
-     * init user object by specified id
-     * @param $id
-     */
-    protected function initProfile($id)
-    {
-        $profile = User::model()->findOne(['id' => $id]);
-        if (!$profile) {
-            $profile = new User();
-            $profile->id = $id;
-        }
-        $this->profile = $profile;
     }
 }

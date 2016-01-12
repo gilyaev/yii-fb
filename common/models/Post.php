@@ -14,7 +14,8 @@ class Post extends EMongoDocument
 
     public function findByParams(array $params)
     {
-        $criteria = new EMongoCriteria();
+        $criteria    = new EMongoCriteria();
+        $sortedField = isset($params['sorted_field']) ? $params['sorted_field'] : 'created_time';
 
         if (empty($params['limit'])) {
             $params['limit'] = 25;
@@ -25,26 +26,26 @@ class Post extends EMongoDocument
         }
 
         if (empty($params['since'])) {
-            $criteria->setSort(['created_time' => 'desc']);
+            $criteria->setSort([$sortedField => 'desc']);
         }
 
         if (!empty($params['since'])) {
             $criteria->addCondition(
-                'created_time',
+                $sortedField,
                 (int) $params['since'],
                 '$gt'
             );
 
-            $criteria->setSort(['created_time' => 'asc']);
+            $criteria->setSort([$sortedField => 'asc']);
         }
 
         if (!empty($params['until'])) {
             $criteria->addCondition(
-                'created_time',
+                $sortedField,
                 (int)$params['until'],
                 '$lt'
             );
-            $criteria->setSort(['created_time' => 'desc']);
+            $criteria->setSort([$sortedField=> 'desc']);
         }
 
         $criteria->setLimit($params['limit']);
