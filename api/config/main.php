@@ -24,8 +24,8 @@ return [
         'urlManager' => [
             'urlFormat' => 'path',
             'rules' => [
-                '<user:\d+>/feed' => 'index/feed',
-                '<user>' => 'index/profile',
+                '<profile>/feed' => 'index/feed',
+                '<profile>' => 'index/profile',
             ],
         ],
 

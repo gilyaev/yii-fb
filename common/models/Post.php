@@ -21,8 +21,8 @@ class Post extends EMongoDocument
             $params['limit'] = 25;
         }
 
-        if (!empty($params['uid'])) {
-            $criteria->addCondition('uid', $params['uid']);
+        if (!empty($params['pid'])) {
+            $criteria->addCondition('pid', $params['pid']);
         }
 
         if (empty($params['since'])) {
@@ -64,7 +64,7 @@ class Post extends EMongoDocument
     public function asJson($options = 0)
     {
         $attributes = $this->getAttributes();
-        unset($attributes['_id'], $attributes['uid']);
+        unset($attributes['_id'], $attributes['pid']);
         return json_encode($attributes, $options);
     }
 }

@@ -3,7 +3,7 @@
 /**
  * Class EFacebook
  *
- * Component for getting facebook's users data using FacebookSDK.
+ * Component for getting facebook's profile data using FacebookSDK.
  * @see https://developers.facebook.com/docs/reference/php
  *
  */
@@ -42,20 +42,20 @@ class EFacebook extends CApplicationComponent
     }
 
     /**
-     * Get user feed filtered by parameters
+     * Get profile feed filtered by parameters
      *
-     * @param string $user_id the facebook profile id
+     * @param string $profileId the facebook profile id
      * @param array $params
      * @return mixed
      * @see https://developers.facebook.com/docs/graph-api/reference/v2.5/post
      *
      * @throws Facebook\Exceptions\FacebookSDKException
      */
-    public function getFeed($user_id, array $params = [])
+    public function getFeed($profileId, array $params = [])
     {
         return $this->fb->sendRequest(
             'GET',
-            "/{$user_id}/feed",
+            "/{$profileId}/feed",
             $params
         )->getGraphEdge();
     }

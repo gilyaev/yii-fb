@@ -1,20 +1,20 @@
 <?php
 
-class EFacebookUserResponse
+class EFacebookProfileResponse
 {
     /**
-     * @var \User
+     * @var \Profile
      */
-    private $user;
+    private $profile;
 
-    public function __construct(\User $user)
+    public function __construct(\Profile $profile)
     {
-        $this->user = $user;
+        $this->profile = $profile;
     }
 
     public function asJson($options = 0)
     {
-        $data = $this->user->getAttributes(['id', 'name']);
+        $data = $this->profile->getAttributes(['id', 'name']);
         return json_encode($data, $options);
     }
 

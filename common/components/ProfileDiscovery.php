@@ -1,6 +1,6 @@
 <?php
 
-class UserDiscovery
+class ProfileDiscovery
 {
     /**
      * @var \EFacebook
@@ -19,16 +19,16 @@ class UserDiscovery
     }
 
     /**
-     * @return \User|null
+     * @return \Profile|null
      *
      * @throws Facebook\Exceptions\FacebookSDKException
      */
     public function discovery()
     {
-        $localUser = $this->getLocal();
+        $profile = $this->getLocal();
 
-        if ($localUser) {
-            return $localUser;
+        if ($profile) {
+            return $profile;
         }
 
         return $this->getRemote();
@@ -37,7 +37,7 @@ class UserDiscovery
     public function getLocal()
     {
         $c = new EMongoCriteria();
-        return User::model()
+        return Profile::model()
             ->findOne($c->addOrCondition(array(
                 array('id'   => $this->profileId),
                 array('name' => $this->profileId)
@@ -45,7 +45,7 @@ class UserDiscovery
     }
 
     /**
-     * @return \User
+     * @return \Profile
      *
      * @throws Facebook\Exceptions\FacebookSDKException
      */
@@ -53,21 +53,21 @@ class UserDiscovery
     {
         $data = $this->fb->getProfile($this->profileId);
 
-        $user = new User();
+        $profile = new Profile();
         foreach ($data as $attr => $value) {
-            $user->setAttribute($attr, $value);
+            $profile->setAttribute($attr, $value);
         }
 
-        $feed = $this->fb->getFeed($user->id, ['limit' => 1]);
+        $feed = $this->fb->getFeed($profile->id, ['limit' => 1]);
 
         if ($feed->count() > 0) {
             $fields = $feed[0]->getFieldNames();
             if (in_array('updated_time', $fields)) {
-                $user->feed_time_field = 'updated_time';
+                $profile->feed_time_field = 'updated_time';
             }
         }
 
-        $user->save();
-        return $user;
+        $profile->save();
+        return $profile;
     }
 }

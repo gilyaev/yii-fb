@@ -45,15 +45,15 @@ class EFacebookFields
     }
 
     /**
-     * @param \User $user
+     * @param \Profile $profile
      * @return array
      */
-    public static function getUserDefaultFields(\User $user)
+    public static function getProfileDefaultFields(\Profile $profile)
     {
         return [
             'story',
             'message',
-            $user->feed_time_field,
+            $profile->feed_time_field,
             'id'
         ];
     }

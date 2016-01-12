@@ -7,15 +7,18 @@ class IndexController extends CController
         header('Content-Type: application/json; charset=utf-8');
 
         try {
-            $userDiscovery = new UserDiscovery($_GET['user']);
-            $user = $userDiscovery->discovery();
-            Yii::app()->end(new EFacebookUserResponse($user), true);
+            $profileDiscovery = new ProfileDiscovery($_GET['profile']);
+            $profile = $profileDiscovery->discovery();
+            Yii::app()->end(new EFacebookProfileResponse($profile), true);
         } catch (\Exception $e) {
             $data = json_encode(['error' => ['message' => $e->getMessage()]]);
             Yii::app()->end(json_encode($data), true);
         }
     }
 
+    /**
+     * get facebook profiles feed
+     */
     public function actionFeed()
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -27,22 +30,31 @@ class IndexController extends CController
         ];
 
         try {
-            $userDiscovery = new UserDiscovery($_GET['user']);
-            $user = $userDiscovery->discovery();
+            $profileDiscovery = new ProfileDiscovery($_GET['profile']);
+            $profile = $profileDiscovery->discovery();
 
-            if (!$user) {
-                $data = json_encode(['error' => ['message' => "User '{$_GET['user']}' not found"]]);
+            if (!$profile) {
+                $data = json_encode(['error' => ['message' => "Profile '{$_GET['profile']}' not found"]]);
                 Yii::app()->end(json_encode($data), true);
             }
 
-            $feedDiscovery = new FeedDiscovery($user, $params);
-            $response      = new EFacebookFeedResponse(
-                $feedDiscovery->discovery(),
-                $params
-            );
+            if (!empty($params['until']) && !empty($profile->first_post_date)) {
+                if ($params['until'] >= $profile->first_post_date) {
+                    Yii::app()->end(new EFacebookFeedResponse([]), true);
+                }
+            }
 
-            $response->setDefaultFields(EFacebookFields::getUserDefaultFields($user))
-                ->setTimeField($user->feed_time_field);
+            $feedDiscovery = new FeedDiscovery($profile, $params);
+            $feed          = $feedDiscovery->discovery();
+
+            if (empty($feed)) {
+                $profile->updateFirstPostDate();
+            }
+
+            $response = new EFacebookFeedResponse($feed, $params);
+
+            $response->setDefaultFields(EFacebookFields::getProfileDefaultFields($profile))
+                ->setTimeField($profile->feed_time_field);
             Yii::app()->end($response, true);
 
         } catch (\Exception $e) {

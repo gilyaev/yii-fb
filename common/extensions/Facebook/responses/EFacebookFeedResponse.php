@@ -71,16 +71,16 @@ class EFacebookFeedResponse
             )
         );
 
-        $endPoint = "{$host}/{$this->getUserId()}/feed";
+        $endPoint = "{$host}/{$this->getProfileId()}/feed";
         $return['paging']['previous'] = "{$endPoint}?{$prevParams}";
         $return['paging']['next'] = "{$endPoint}?{$nextParams}";
 
         return json_encode($return, $options);
     }
 
-    public function getUserId()
+    public function getProfileId()
     {
-        return reset($this->data)['uid'];
+        return reset($this->data)['pid'];
     }
 
     /**

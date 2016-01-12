@@ -11,11 +11,11 @@ class FeedDiscovery
     protected $params = [];
 
     /**
-     * @var \User
+     * @var \Profile
      */
-    protected $user;
+    protected $profile;
 
-    public function __construct(\User $user, array $params = [])
+    public function __construct(\Profile $profile, array $params = [])
     {
         if (!empty($params['limit']) && $params['limit'] > 100) {
             throw new Exception("The 'limit' parameter should not exceed 100");
@@ -38,7 +38,7 @@ class FeedDiscovery
                 throw new Exception('Unknown fields:' . implode(',', $diff));
             }
         }
-        $this->user   = $user;
+        $this->profile = $profile;
         $this->params = $params;
     }
 
@@ -72,7 +72,7 @@ class FeedDiscovery
      */
     protected function getLocal()
     {
-        $posts = $this->user->getPosts($this->params);
+        $posts = $this->profile->getPosts($this->params);
         if (!empty($posts)) {
             $posts = iterator_to_array($posts);
             if (!empty($this->params['since'])) {
@@ -100,7 +100,7 @@ class FeedDiscovery
             $params['until'] = ($params['until'] - 2);
         }
 
-        return $fb->getFeed($this->user->id, $params);
+        return $fb->getFeed($this->profile->id, $params);
     }
 
     /**
