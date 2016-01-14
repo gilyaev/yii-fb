@@ -1,6 +1,6 @@
 {
   "name": "gilyaev/yii-fb",
-  "description": "Service for getting facebook users feed based on YII Framework",
+  "description": "The service for getting public wall posts with the facebook API.",
   "keywords": [
     "yii",
     "facebook",

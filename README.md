@@ -1,2 +1,12 @@
 # yii-fb
-Get wall feed from a public Facebook page using Graph API
+The service for getting public wall posts with the facebook API.
+
+## Installation using Composer
+```
+{
+    "minimum-stability": "dev",
+    "require": {
+        "gilyaev/yii-fb" : "dev-master"
+    }
+}
+```
