@@ -1,7 +1,22 @@
 {
+  "name": "gilyaev/yii-fb",
+  "description": "Service for getting facebook users feed based on YII Framework",
+  "keywords": [
+    "yii",
+    "facebook",
+    "graph api",
+    "api"
+  ],
   "config": {
     "vendor-dir": "common/lib"
   },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Viktor Zhyliaiev",
+      "email": "gilyaev@gmail.com"
+    }
+  ],
   "repositories": [
     {
       "type": "composer",
