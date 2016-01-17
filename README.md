@@ -4,25 +4,25 @@ The service for getting public wall posts with the facebook API.
 ## Installation and configurations
 1. Create virtual host directory for our service. E.g. the host directory path is /var/www/fb-api ([HOST_DIR]) 
 2. Clone git repository into host directory
-```
-# git clone https://github.com/gilyaev/yii-fb.git [HOST_DIR]
-```
+  ```
+  # git clone https://github.com/gilyaev/yii-fb.git [HOST_DIR]
+  ```
 3. Change the *DocumentRoot* directive so that it referred to [HOST_DIR]/api/www
-```
-<VirtualHost *:80>
-    ServerAdmin admin@example.com
-    DocumentRoot [HOST_DIR]/api/www
-    ServerName api.example.com
-    <Directory [HOST_DIR]/api/www>
-      Options Indexes FollowSymLinks MultiViews
-      AllowOverride All
-      Order allow,deny
-      allow from all
-    </Directory>
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-```
+  ```
+  <VirtualHost *:80>
+      ServerAdmin admin@example.com
+      DocumentRoot [HOST_DIR]/api/www
+      ServerName api.example.com
+      <Directory [HOST_DIR]/api/www>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+      </Directory>
+      ErrorLog ${APACHE_LOG_DIR}/error.log
+      CustomLog ${APACHE_LOG_DIR}/access.log combined
+  </VirtualHost>
+  ```
 4. Install composer dependencies
 ```
 # cd ./HOST_DIR/
