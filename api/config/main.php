@@ -28,9 +28,5 @@ return [
                 '<profile>' => 'index/profile',
             ],
         ],
-
-        'mongodb' => [
-            'class' => 'EMongoClient',
-        ],
     ]
 ];
