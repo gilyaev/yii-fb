@@ -10,3 +10,6 @@ The service for getting public wall posts with the facebook API.
     }
 }
 ```
+
+## Configurations
+

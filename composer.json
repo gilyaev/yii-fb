@@ -28,10 +28,5 @@
     "yiisoft/yii": "1.1.*",
     "facebook/php-sdk-v4": "~5.0",
     "sammaye/mongoyii": "*"
-  },
-  "autoload": {
-    "psr-0": {
-      "config": "./"
-    }
   }
 }
